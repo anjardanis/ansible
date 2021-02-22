@@ -1,0 +1,5 @@
+- hosts: nginx
+  tasks:
+          - name: run nginx
+            command: docker run --name nginx -d -p 80:80 -v /home/public/nginx/nginx.conf:/etc/nginx/nginx.conf -v /home/public/nginx/dumblibrary/:/etc/nginx/dumblibrary nginx
+            become_user: "{{ansible_user}}"

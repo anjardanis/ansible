@@ -1,0 +1,19 @@
+- hosts: fe1:fe2
+  tasks:
+          - name: build docker frontend
+            command: "chdir=/home/{{ansible_user}}/library-fe docker build -t anjardanis/library-fe ."
+            become_user: "{{ansible_user}}"
+
+          - name: run library-fe
+            command: docker run -p 3000:3000 -dit anjardanis/library-fe
+            become_user: "{{ansible_user}}"
+
+- hosts: be1
+  tasks:
+          - name: build docker backend
+            command: "chdir=/home/{{ansible_user}}/library-be docker build -t anjardanis/library-be ."               
+            become_user: "{{ansible_user}}"
+
+          - name: run library-be
+            command: docker run -p 5000:5000 -dit anjardanis/library-be
+            become_user: "{{ansible_user}}"

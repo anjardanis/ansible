@@ -1,0 +1,142 @@
+# Create new user pass:pointbreak123
+- hosts: nginx
+  tasks:
+          - name: "create users reverse proxy"
+            user:
+                    name: public
+                    password: "$6$CjI1u8z2chKyEka$ka/CR75ySm.Dchny13kVH6UTFu1jJZsUM9HZnCAQWkiJIgEcgDSjgxGA97Wai5P76AxGf9C9s/O.N/vr2r7gm0"
+                    groups: sudo,docker
+                    generate_ssh_key: yes
+                    ssh_key_bits: 4096
+                    ssh_key_file: .ssh/id_rsa
+                    state: present
+                    shell: /bin/bash
+                    system: no
+                    createhome: yes
+                    home: /home/public
+
+- hosts: fe1
+  tasks:
+          - name: "create users frontend01"
+            user:
+                    name: frontend01
+                    password: "$6$CjI1u8z2chKyEka$ka/CR75ySm.Dchny13kVH6UTFu1jJZsUM9HZnCAQWkiJIgEcgDSjgxGA97Wai5P76AxGf9C9s/O.N/vr2r7gm0"
+                    groups: sudo,docker
+                    generate_ssh_key: yes
+                    ssh_key_bits: 4096
+                    ssh_key_file: .ssh/id_rsa
+                    state: present
+                    shell: /bin/bash
+                    system: no
+                    createhome: yes
+                    home: /home/frontend01
+
+- hosts: fe2
+  tasks:
+          - name: "create users frontend02"
+            user:
+                    name: frontend02
+                    password: "$6$CjI1u8z2chKyEka$ka/CR75ySm.Dchny13kVH6UTFu1jJZsUM9HZnCAQWkiJIgEcgDSjgxGA97Wai5P76AxGf9C9s/O.N/vr2r7gm0"
+                    groups: sudo,docker
+                    generate_ssh_key: yes
+                    ssh_key_bits: 4096
+                    ssh_key_file: .ssh/id_rsa
+                    state: present
+                    shell: /bin/bash
+                    system: no
+                    createhome: yes
+                    home: /home/frontend02
+
+- hosts: be1
+  tasks:
+          - name: "create users backend"
+            user:
+                    name: backend
+                    password: "$6$CjI1u8z2chKyEka$ka/CR75ySm.Dchny13kVH6UTFu1jJZsUM9HZnCAQWkiJIgEcgDSjgxGA97Wai5P76AxGf9C9s/O.N/vr2r7gm0"
+                    groups: sudo,docker
+                    generate_ssh_key: yes
+                    ssh_key_bits: 4096
+                    ssh_key_file: .ssh/id_rsa
+                    state: present
+                    shell: /bin/bash
+                    system: no
+                    createhome: yes
+                    home: /home/backend
+
+- hosts: db1
+  tasks:
+          - name: "create users database01"
+            user:
+                    name: frontend02
+                    password: "$6$CjI1u8z2chKyEka$ka/CR75ySm.Dchny13kVH6UTFu1jJZsUM9HZnCAQWkiJIgEcgDSjgxGA97Wai5P76AxGf9C9s/O.N/vr2r7gm0"
+                    groups: sudo,docker
+                    generate_ssh_key: yes
+                    ssh_key_bits: 4096
+                    ssh_key_file: .ssh/id_rsa
+                    state: present
+                    shell: /bin/bash
+                    system: no
+                    createhome: yes
+                    home: /home/database01
+
+- hosts: db2
+  tasks:
+          - name: "create users database02"
+            user:
+                    name: frontend02
+                    password: "$6$CjI1u8z2chKyEka$ka/CR75ySm.Dchny13kVH6UTFu1jJZsUM9HZnCAQWkiJIgEcgDSjgxGA97Wai5P76AxGf9C9s/O.N/vr2r7gm0"
+                    groups: sudo,docker
+                    generate_ssh_key: yes
+                    ssh_key_bits: 4096
+                    ssh_key_file: .ssh/id_rsa
+                    state: present
+                    shell: /bin/bash
+                    system: no
+                    createhome: yes
+                    home: /home/database02
+
+- hosts: cicd
+  tasks:
+          - name: "create users cicd"
+            user:
+                    name: cicd
+                    password: "$6$CjI1u8z2chKyEka$ka/CR75ySm.Dchny13kVH6UTFu1jJZsUM9HZnCAQWkiJIgEcgDSjgxGA97Wai5P76AxGf9C9s/O.N/vr2r7gm0"
+                    groups: sudo,docker
+                    generate_ssh_key: yes
+                    ssh_key_bits: 4096
+                    ssh_key_file: .ssh/id_rsa
+                    state: present
+                    shell: /bin/bash
+                    system: no
+                    createhome: yes
+                    home: /home/cicd
+
+- hosts: mn
+  tasks:
+          - name: "create users monitoring"
+            user:
+                    name: monitoring
+                    password: "$6$CjI1u8z2chKyEka$ka/CR75ySm.Dchny13kVH6UTFu1jJZsUM9HZnCAQWkiJIgEcgDSjgxGA97Wai5P76AxGf9C9s/O.N/vr2r7gm0"
+                    groups: sudo,docker
+                    generate_ssh_key: yes
+                    ssh_key_bits: 4096
+                    ssh_key_file: .ssh/id_rsa
+                    state: present
+                    shell: /bin/bash
+                    system: no
+                    createhome: yes
+                    home: /home/monitoring
+                                        
+# Change PasswordAuthentication and reload sshd
+- hosts: all
+  tasks:
+          - name: change PasswordAuth
+            lineinfile:
+                    path: /etc/ssh/sshd_config
+                    regexp: 'PasswordAuthentication no'
+                    line: PasswordAuthentication yes
+
+          - name: reload sshd
+            systemd:
+                    name: sshd
+                    state: reloaded 

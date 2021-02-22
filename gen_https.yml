@@ -1,0 +1,18 @@
+- hosts: nginx
+  vars_files:
+    - group_vars/gen-certbot
+   
+  tasks:
+  - name : Install Python Package
+    become_user: "{{ansible_user}}"
+    apt: name=python3 update_cache=yes state=latest
+ 
+  - name : Install Let's Encrypt Package
+    become_user: "{{ansible_user}}"
+    apt: name={{ certbot_package }} update_cache=yes state=latest
+ 
+  - name: Create and Install Cert Using {{ certbot_plugin }} Plugin
+    become_user: "{{ansible_user}}"
+    command: "certbot --{{ certbot_plugin }} -d {{ item }} -m {{ certbot_mail_address }} --agree-tos --noninteractive --redirect"
+    with_items:
+    - "{{ certbot_site_names }}"

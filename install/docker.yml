@@ -1,0 +1,28 @@
+- hosts: all
+  tasks:
+    - name: "install Docker dependecies"
+      apt:
+        name:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - gnupg-agent
+        - software-properties-common
+
+    - name: "add gpg docker key"
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+ 
+    - name: "add docker repo"
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu bionic stable
+
+    - name: "install docker"
+      apt:
+         name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+
+    - name: "node exporter"
+      shell: docker run -d --net="host" --pid="host" -v "/:/host:ro,rslave" quay.io/prometheus/node-exporter --path.rootfs=/host

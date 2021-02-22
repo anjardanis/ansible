@@ -1,0 +1,9 @@
+- hosts: mn
+  tasks:
+          - name: run prometheus
+            command: docker run --name prometheus -p 9090:9090 -dit -v /home/monitoring/prometheus:/etc/prometheus prom/prometheus
+            become_user: "{{ansible_user}}"
+
+          - name: run grafana
+            command: docker run --name grafana -dit -p 3000:3000 --net=host -v /home/monitoring/grafana/grafana.ini:/etc/grafana/grafana.ini grafana/grafana
+            become_user: "{{ansible_user}}" 

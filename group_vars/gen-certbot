@@ -1,0 +1,8 @@
+certbot_package: "python3-certbot-nginx"
+certbot_plugin: "nginx"
+certbot_mail_address: rayzjar@gmail.com
+certbot_site_names:
+    - anjar.forthbatavia.xyz
+    - api.anjar.forthbatavia.xyz 
+    - cicd.anjar.forthbatavia.xyz 
+    - monitoring.anjar.forthbatavia.xyz 

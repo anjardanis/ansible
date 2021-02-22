@@ -1,0 +1,19 @@
+- hosts: fe1:fe2
+  tasks:
+          - name: git clone
+            become_user: "{{ansible_user}}"
+            git:
+                    repo: git@github.com:anjardanis/library-fe.git
+                    version: master
+                    dest: ~/library-fe/
+                    accept_hostkey: yes
+
+- hosts: be1
+  tasks:
+          - name: git clone
+            become_user: "{{ansible_user}}"
+            git:
+                    repo: git@github.com:anjardanis/library-be.git
+                    version: master
+                    dest: ~/library-be/
+                    accept_hostkey: yes
