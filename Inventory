@@ -8,5 +8,5 @@ db2 ansible_host=10.1.1.13 ansible_user=database02
 cicd ansible_host=10.1.1.12 ansible_user=cicd
 mn ansible_host=10.1.1.8 ansible_user=monitoring
 
-[user:vars]
+[all:vars]
 ansible_python_interpreter=/usr/bin/python3
