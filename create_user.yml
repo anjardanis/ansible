@@ -51,7 +51,7 @@
   tasks:
           - name: "create users backend"
             user:
-                    name: backend
+                    name: backend01
                     password: "$6$CjI1u8z2chKyEka$ka/CR75ySm.Dchny13kVH6UTFu1jJZsUM9HZnCAQWkiJIgEcgDSjgxGA97Wai5P76AxGf9C9s/O.N/vr2r7gm0"
                     groups: sudo,docker
                     generate_ssh_key: yes
@@ -61,13 +61,29 @@
                     shell: /bin/bash
                     system: no
                     createhome: yes
-                    home: /home/backend
+                    home: /home/backend01
+
+- hosts: be2
+  tasks:
+          - name: "create users backend"
+            user:
+                    name: backend02
+                    password: "$6$CjI1u8z2chKyEka$ka/CR75ySm.Dchny13kVH6UTFu1jJZsUM9HZnCAQWkiJIgEcgDSjgxGA97Wai5P76AxGf9C9s/O.N/vr2r7gm0"
+                    groups: sudo,docker
+                    generate_ssh_key: yes
+                    ssh_key_bits: 4096
+                    ssh_key_file: .ssh/id_rsa
+                    state: present
+                    shell: /bin/bash
+                    system: no
+                    createhome: yes
+                    home: /home/backend02
 
 - hosts: db1
   tasks:
           - name: "create users database01"
             user:
-                    name: frontend02
+                    name: database01
                     password: "$6$CjI1u8z2chKyEka$ka/CR75ySm.Dchny13kVH6UTFu1jJZsUM9HZnCAQWkiJIgEcgDSjgxGA97Wai5P76AxGf9C9s/O.N/vr2r7gm0"
                     groups: sudo,docker
                     generate_ssh_key: yes
@@ -83,7 +99,7 @@
   tasks:
           - name: "create users database02"
             user:
-                    name: frontend02
+                    name: database02
                     password: "$6$CjI1u8z2chKyEka$ka/CR75ySm.Dchny13kVH6UTFu1jJZsUM9HZnCAQWkiJIgEcgDSjgxGA97Wai5P76AxGf9C9s/O.N/vr2r7gm0"
                     groups: sudo,docker
                     generate_ssh_key: yes
