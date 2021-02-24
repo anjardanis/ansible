@@ -3,23 +3,21 @@
   - name: Ansible copy directory to public server
     become_user: "{{ansible_user}}"
     copy:
-      src: nginx
+      src: nginx-certbot
       dest: "/home/{{ansible_user}}/"
       owner: "{{ansible_user}}"
       group: "{{ansible_user}}"
       mode: 755
+
+  - name: Changing perm of "https.sh", adding "+x"
+    become_user: "{{ansible_user}}"
+    copy:
+      src: https.sh
+      dest: "/home/{{ansible_user}}/nginx-certbot"
+      mode: a+x
 
 - hosts: mn
   tasks:
-  - name: Ansible copy directory to monitoring server
-    become_user: "{{ansible_user}}"
-    copy:
-      src: grafana
-      dest: "/home/{{ansible_user}}/"
-      owner: "{{ansible_user}}"
-      group: "{{ansible_user}}"
-      mode: 755
-
   - name: Ansible copy directory to monitoring server
     become_user: "{{ansible_user}}"
     copy:
