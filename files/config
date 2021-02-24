@@ -1,0 +1,31 @@
+Host public
+ HostName 10.1.0.14
+ User public
+
+Host frontend01
+ HostName 10.1.1.14
+ User frontend01
+
+Host frontend02          
+ HostName 10.1.1.6
+ User frontend02
+
+Host backend01          
+ HostName 10.1.1.4
+ User backend01
+
+Host backend02          
+ HostName 10.1.1.5
+ User backend02
+
+Host database01          
+ HostName 10.1.1.13
+ User dataabase01
+
+Host database02          
+ HostName 10.1.1.10
+ User database02
+
+Host cicd          
+ HostName 10.1.1.11
+ User cicd
