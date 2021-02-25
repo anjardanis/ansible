@@ -3,17 +3,17 @@
           - name: git clone
             become_user: "{{ansible_user}}"
             git:
-                    repo: git@github.com:anjardanis/library-fe.git
-                    version: master
-                    dest: ~/library-fe/
+                    repo: git@github.com:anjardanis/literature-frontend.git
+                    version: production
+                    dest: ~/literature-frontend/
                     accept_hostkey: yes
 
-- hosts: be1
+- hosts: be1:be2
   tasks:
           - name: git clone
             become_user: "{{ansible_user}}"
             git:
-                    repo: git@github.com:anjardanis/library-be.git
-                    version: master
-                    dest: ~/library-be/
+                    repo: git@github.com:anjardanis/literature-backend.git
+                    version: production
+                    dest: ~/literature-backend/
                     accept_hostkey: yes

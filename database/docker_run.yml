@@ -1,0 +1,17 @@
+- hosts: db1:db2
+  tasks:
+          - name: run postgresql
+            command: "docker run -d --name postgre -v /home/{{ansible_user}}/postgre:/var/lib/postgresql/data -e POSTGRES_PASSWORD=anjar -p 5432:5432 postgres"
+            become_user: "{{ansible_user}}"
+
+          - name: create database literature
+            command: docker exec -it postgre psql -U postgres -e CREATE DATABASE literature;
+            become_user: "{{ansible_user}}"
+
+          - name: create user backend
+            command: docker exec -it postgre psql -U postgres -e CREATE USER backend with password 'anjar';
+            become_user: "{{ansible_user}}"
+
+          - name: create access privilege
+            command: docker exec -it postgre psql -U postgres -e GRANT ALL PRIVILEGES ON DATABASE literature to backend;
+            become_user: "{{ansible_user}}"

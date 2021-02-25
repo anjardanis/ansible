@@ -7,12 +7,12 @@
       dest: "/home/{{ansible_user}}/"
       owner: "{{ansible_user}}"
       group: "{{ansible_user}}"
-      mode: 755
 
   - name: Changing perm of "https.sh", adding "+x"
     become_user: "{{ansible_user}}"
     copy:
       src: https.sh
+      group: "{{ansible_user}}"
       dest: "/home/{{ansible_user}}/nginx-certbot"
       mode: a+x
 
