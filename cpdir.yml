@@ -25,4 +25,10 @@
       dest: "/home/{{ansible_user}}/"
       owner: "{{ansible_user}}"
       group: "{{ansible_user}}"
-      mode: 755
+
+  - name: fix permissions for prometheus mnt folder
+    file:
+      path: '/home/monitoring/prometheus'
+      group: nogroup
+      recurse: yes
+    become: yes

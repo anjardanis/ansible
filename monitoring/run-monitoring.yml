@@ -5,5 +5,5 @@
             become_user: "{{ansible_user}}"
 
           - name: run grafana
-            command: docker run --name grafana -dit -p 3000:3000 --net=host -v /home/monitoring/grafana/grafana.ini:/etc/grafana/grafana.ini grafana/grafana
+            command: docker run --name grafana -dit -p 3000:3000 --net=host grafana/grafana
             become_user: "{{ansible_user}}" 

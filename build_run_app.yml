@@ -1,19 +1,19 @@
 - hosts: fe1:fe2
   tasks:
           - name: build docker frontend
-            command: "chdir=/home/{{ansible_user}}/library-fe docker build -t anjardanis/library-fe ."
+            command: "chdir=/home/{{ansible_user}}/literature-frontend docker build -t anjardanis/literature-frontend ."
             become_user: "{{ansible_user}}"
 
-          - name: run library-fe
-            command: docker run -p 3000:3000 -dit anjardanis/library-fe
+          - name: run literature-frontend
+            command: "chdir=/home/{{ansible_user}}/literature-frontend docker-compose up -d"
             become_user: "{{ansible_user}}"
 
-- hosts: be1
+- hosts: be1:be2
   tasks:
           - name: build docker backend
-            command: "chdir=/home/{{ansible_user}}/library-be docker build -t anjardanis/library-be ."               
+            command: "chdir=/home/{{ansible_user}}/literature-backend docker build -t anjardanis/literature-backend ."               
             become_user: "{{ansible_user}}"
 
-          - name: run library-be
-            command: docker run -p 5000:5000 -dit anjardanis/library-be
+          - name: run literature-backend
+            command: "chdir=/home/{{ansible_user}}/literature-backend docker-compose up -d"
             become_user: "{{ansible_user}}"
