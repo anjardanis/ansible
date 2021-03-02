@@ -1,0 +1,9 @@
+- hosts: nginx
+  tasks:
+    - name: generate SSH key rizal
+      user:
+        name: "anjar"
+        generate_ssh_key: yes
+        ssh_key_type: rsa
+        ssh_key_bits: 4096
+        ssh_key_file: .ssh/id_rsa
