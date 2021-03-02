@@ -8,6 +8,9 @@
         - curl
         - gnupg-agent
         - software-properties-common
+        - python3-pip
+        - virtualenv
+        - python3-setuptools
 
     - name: "add gpg docker key"
       apt_key:
@@ -24,6 +27,13 @@
           - docker-ce-cli
           - containerd.io
 
-    - name: "node exporter"
-      shell: docker run -d --net="host" --pid="host" -v "/:/host:ro,rslave" quay.io/prometheus/node-exporter --path.rootfs=/host
-
+    - name: Install docker-compose
+      remote_user: ubuntu
+      get_url: 
+        url : https://github.com/docker/compose/releases/download/1.27.4/docker-compose-Linux-x86_64
+        dest: /usr/local/bin/docker-compose
+        mode: 'u+x,g+x'
+     
+    - name: install python docker module
+      pip: 
+         name: docker

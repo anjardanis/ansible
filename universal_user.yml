@@ -1,12 +1,27 @@
-- hosts: fe1:fe2:be1:be2:db1:db2:cicd:public
+- hosts: all
   tasks:
-          - name: "create users monitoring except monitoring server"
+          - name: "create universal user anjar"
             user:
-                    name: monitoring
+                    name: anjar
                     password: "$6$CjI1u8z2chKyEka$ka/CR75ySm.Dchny13kVH6UTFu1jJZsUM9HZnCAQWkiJIgEcgDSjgxGA97Wai5P76AxGf9C9s/O.N/vr2r7gm0"
                     groups: sudo,docker
                     state: present
                     shell: /bin/bash
                     system: no
                     createhome: yes
-                    home: /home/monitoring
+                    home: /home/anjar
+
+# aktifkan pasword authentication dan reload ssh
+- hosts: all
+  become: yes
+  tasks:
+  - name: passwdauth
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      regexp: 'PasswordAuthentication no'
+      line: PasswordAuthentication yes
+
+  - name: reload ssh
+    systemd:
+      name: sshd
+      state: reloaded

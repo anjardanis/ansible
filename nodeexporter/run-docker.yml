@@ -1,0 +1,15 @@
+- hosts: all
+  tasks:
+          - name: node exporter
+            docker_container:
+                name: nodeexporter
+                capabilities:
+                 - sys_time
+                command: --path.rootfs /host
+                detach: true
+                image: quay.io/prometheus/node-exporter
+                ports:
+                     - "9100:9100"
+                state: started
+                volumes:
+                     - "/:/host:ro,rslave" 
