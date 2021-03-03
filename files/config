@@ -1,31 +1,35 @@
-Host public
- HostName 10.1.0.14
- User public
+Host nginx
+ HostName 10.1.0.11
+ User anjar
 
-Host frontend01
- HostName 10.1.1.14
- User frontend01
-
-Host frontend02          
- HostName 10.1.1.6
- User frontend02
-
-Host backend01          
+Host fe1
  HostName 10.1.1.4
- User backend01
+ User anjar
 
-Host backend02          
+Host fe2          
  HostName 10.1.1.5
- User backend02
+ User anjar
 
-Host database01          
- HostName 10.1.1.13
- User dataabase01
+Host be1          
+ HostName 10.1.1.7
+ User anjar
 
-Host database02          
- HostName 10.1.1.10
- User database02
+Host be2          
+ HostName 10.1.1.11
+ User anjar
+
+Host db1          
+ HostName 10.1.1.9
+ User anjar
+
+Host db2          
+ HostName 10.1.1.6
+ User anjar
 
 Host cicd          
- HostName 10.1.1.11
- User cicd
+ HostName 10.1.1.13
+ User anjar
+
+Host mn
+ HostName 10.1.1.10
+ User anjar

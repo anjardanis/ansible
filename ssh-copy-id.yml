@@ -1,0 +1,8 @@
+- hosts: fe1:fe2:be1:be2:mn:db1:db2:cicd
+  become_user: anjar
+  tasks:
+   - name: Set authorized key took from file
+     authorized_key:
+       user: anjar
+       state: present
+       key: "{{ lookup('file', '/home/anjar/.ssh/id_rsa.pub') }}"
