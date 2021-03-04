@@ -1,0 +1,86 @@
+- hosts: frontend:master
+  tasks:
+   - name: Installing Prerequisites for Kubernetes
+     apt: 
+      name:
+       - apt-transport-https
+       - ca-certificates
+       - curl
+       - gnupg-agent
+       - vim
+       - software-properties-common
+      state: present
+
+   - name: Add Google official GPG key
+     apt_key:
+       url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+       state: present
+
+   - name: Add Kubernetes Repository
+     apt_repository:
+       repo: deb http://apt.kubernetes.io/ kubernetes-xenial main 
+       state: present
+       filename: kubernetes
+       mode: 0600
+
+   - name: Installing Kubernetes Cluster Packages.
+     apt: 
+       name:
+         - kubeadm
+         - kubectl
+         - kubelet
+       state: present
+
+   - name: Add line Net Bridge on sysctl.conf
+     lineinfile:
+      path: /etc/sysctl.conf
+      line: net.bridge.bridge-nf-call-iptables=1
+   - name: Apply change on sysctl
+     shell: sysctl -p
+
+- hosts: master
+  tasks:
+   - name: initialize k8s cluster
+     shell: kubeadm reset -f && kubeadm init --pod-network-cidr=10.244.0.0/16
+     register: kubeadm_result
+   - debug:
+      var: kubeadm_result.stdout_lines
+
+   - name: Make configuration folder for k8s
+     become: yes
+     become_user: anjar 
+     file:
+      state: directory
+      path: /home/anjar/.kube
+      mode: 0755
+
+   - name: Copy configuration k8s into home
+     copy: 
+      src: /etc/kubernetes/admin.conf
+      dest: /home/anjar/.kube/config
+      remote_src: yes
+      owner: anjar
+
+# No need chown, cuz its already chmoded on previous command
+#   - name: chown configuration folder
+#     shell: sudo chown $(id -u):$(id -g) home/manage/.kube/config
+
+- hosts: frontend
+  vars_prompt:
+   - name: "kubeadm"
+     prompt: "Kubeadm command "
+     private: no
+  tasks:
+   - name: reset kubeadm first
+     shell: kubeadm reset -f
+
+   - name: Retriving input command kubeadm
+     shell: "{{ kubeadm }}"
+
+- hosts: master
+  tasks:
+   - name: apply network plugin flannel
+     become: yes
+     become_user: manage
+     shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml 
+
